@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        
+        "removeComments": true,
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "target": "ESNext",
+        "watch": false,
+        "lib": ["ES2015","es6", "DOM", "es2016", "es2017", "es2018", "es2019", 
+        "es2020", "ESNext"],
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "allowJs": true,
+        "sourceMap": true,
+        "outDir": "./dist",
+        
+
+    },
+    "files": ["helpers/index.ts",],
+    "exclude": [
+        "node_modules",
+        "helpers"
+    ]
+      
+    
+}

@@ -1,0 +1,17 @@
+{
+  "name": "threejsapp",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    
+    "vite": "^2.4.4"
+  },
+  "dependencies": {
+    "three": "^0.131.3"
+  }
+}

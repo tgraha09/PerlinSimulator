@@ -1,0 +1,43 @@
+.app {
+    /*
+    position: fixed;
+    top: 0;
+    left: 0;*/
+ 
+    max-width: 600px;
+    max-height: 400px;
+}
+   
+.expand-wrap{
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    /*max-width: 600px;
+    max-height: 600px;*/
+}
+
+.slider-wrap{
+    /* justify-content: center;
+     flex-direction: column;
+     height: inherit;*/
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: inherit;
+}
+   
+.controls{
+    position: relative;
+    min-width: 300px;
+    background-color: cornflowerblue;
+    /*min-width: 200px;
+    display: inline;
+    text-align: center;
+    justify-content: center;
+    height: inherit;*/
+}
+
+.controls > .title{
+    text-align: center;
+}
+

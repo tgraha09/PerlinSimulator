@@ -3,7 +3,7 @@ import * as THREE from 'three'
 
 import { innerScreenWidth, innerScreenHeight, findElement, und, addKeyboardEvent, changeGeometry,
   resizeWindowToCamera, initPerspectiveCam, update, 
-  calcAspectRatio, KeyboardWatch, rotateShape, rotateX, rotateY, rotateZ } from '../dist/index.js'
+  calcAspectRatio, KeyboardWatch, rotateShape, rotateX, rotateY, rotateZ, getFPS } from '../dist/index.js'
 import * as Shapes from './shapes'
 import { V3, V2 } from './vertex'
 import { Vector3 } from 'three'
@@ -30,9 +30,24 @@ const perspectiveCam = new THREE.PerspectiveCamera(fov, aspectRatio, 0.1, 1000) 
 /*perspectiveCam.position.y = 25;
 perspectiveCam.position.z = 50;
 perspectiveCam.position.x = -50;*/
+let info
 
-resizeWindowToCamera(perspectiveCam, renderer)
-initPerspectiveCam(renderer, perspectiveCam)
+window.onload = ()=>{
+  resizeWindowToCamera(perspectiveCam, renderer)
+  initPerspectiveCam(renderer, perspectiveCam)
+  addKeyboardEvent((key)=>{
+    //console.log(key);
+    if(key ==="r"){
+      plane.rotation.set(rot.x, rot.y, rot.z)
+    }
+    //console.log(planeGeometry.attributes.position.array);
+    rotateShape(plane, key, 0.02)
+  })
+  console.log("Load");
+  info = findElement('#info')
+  console.log(info);
+  //document.body.textContent
+}
 
 
 
@@ -50,6 +65,7 @@ let torus = new Shapes.TorusGeometry(10,3,16,100, 0xFF6347, true)//new THREE.Mes
 let pos = new Vector3(0,0,0)
 let planeGeometry = new THREE.PlaneBufferGeometry(30, 30, 200, 200);
 const geometryCount = planeGeometry.attributes.position.count;
+console.log(geometryCount);
 let plane = new THREE.Mesh(planeGeometry, new THREE.MeshPhongMaterial({ color: 0xf2a23a }));//new THREE.PlaneBufferGeometry(30, 30, 200, 200);//new Shapes.PlaneGeometry(30,30,200,200)
 plane.receiveShadow = true;
 plane.castShadow = true;
@@ -115,32 +131,33 @@ const clickMouse = new THREE.Vector2();  // create once
 const vector3 = new THREE.Vector3();   // create once
 const MAX_CLICK_DISTANCE = 10
 
-addKeyboardEvent((key)=>{
-  //console.log(key);
-  if(key ==="r"){
-    plane.rotation.set(rot.x, rot.y, rot.z)
-  }
-  //console.log(planeGeometry.attributes.position.array);
-  rotateShape(plane, key, 0.02)
-})
+
 
 let slowOptions = {
   enabled: true,
   frames: 1
 }
+function render(){
+  controls.update()
+  renderer.render(scene, perspectiveCam)
+  findElement('#info').textContent = `FPS: ${getFPS()}`
+}
 update((tick)=>{
-    controls.update()
-    renderer.render(scene, perspectiveCam)
-    if(tick < 2){
-      //console.log(planeGeometry.attributes.position.array);
-      return;
-    }
+  render()
+  if(tick < 2){
+    //console.log(planeGeometry.attributes.position.array);
+    return;
+  }
     
   changeGeometry(planeGeometry, (geometry, matrix, i, prev)=>{
     
+    //matrix
     //console.log(matrix, prev);
     //planeGeometry.attributes.position.
     //geometry.attributes.position.setZ(i, Math.random(0, 100));
+    if(i < matrix.count/2){ //matrix.count/2
+      geometry.attributes.position.setZ(i, Math.random(0, 100));
+    }
     if(i % 3 == 0){
       //planeGeometry.attributes.position.
       //console.log(i);

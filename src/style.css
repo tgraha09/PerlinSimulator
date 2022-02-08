@@ -7,6 +7,16 @@
     max-width: 600px;
     max-height: 400px;
 }
+
+#info {
+	position: absolute;
+	top: 1rem;
+    right: 23rem;
+	width: 100%;
+	text-align: center;
+	z-index: 100;
+	display:block;
+}
    
 .expand-wrap{
     display: flex;

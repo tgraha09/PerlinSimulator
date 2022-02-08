@@ -131,8 +131,8 @@ export function changeGeometry(geometry, callback){
       const x = geometry.attributes.position.getX(i);
       const y = geometry.attributes.position.getY(i);
       const z = geometry.attributes.position.getZ(i);
-      callback(geometry, {x,y,z}, i, previous)
-      previous.matrix = {x,y,z}
+      callback(geometry, {x,y,z, count}, i, previous)
+      previous.matrix = {x,y,z, count}
       //previous.u +=1
     }
     //callback(geometry)
@@ -179,6 +179,18 @@ loop = {
 }
 
 let frameCount = 0
+const frames = [];
+export function getFPS(){ 
+    let fps;
+    let currentframe = performance.now();
+    while (frames.length > 0 && frames[0] <= currentframe - 1000) {
+    frames.shift();
+    }
+    frames.push(currentframe);
+    fps = frames.length;
+    
+    return fps
+}
 
 export function update(callback: any, slowOptions: any){
    
@@ -220,7 +232,7 @@ export function update(callback: any, slowOptions: any){
 }
 
 export function findElement(name: string, callback: any){
-    console.log("findElement");
+   // console.log("findElement");
     
     let element: object;
     let sendBack: any;
@@ -232,15 +244,16 @@ export function findElement(name: string, callback: any){
         data = callback(element)
         sendBack = {
             data,
-            element
+            element: element as HTMLElement
         }
+        return sendBack
     }
     else{
         sendBack = {
             element
         }
     }
-    return sendBack.element
+    return sendBack.element as HTMLElement
 }
 
 export function und(obj){

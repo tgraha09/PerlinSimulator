@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "prepack": "tsc -b",
+    "prepack": "npx tsc",
     "build": "npm run prepack && vite build",
     "serve": "vite preview",
     "start": "npm run dev"

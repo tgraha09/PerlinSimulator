@@ -3,13 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "prepack": "npx tsc",
+    "tsc": "tsc",
+    "prepack": "npm run tsc",
     "build": "npm run prepack && vite build",
     "serve": "vite preview",
     "start": "npm run dev"
   },
   "devDependencies": {
-    
+    "typescript": "^4.5.5",
     "vite": "^2.4.4"
   },
   "dependencies": {

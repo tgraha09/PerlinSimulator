@@ -144,15 +144,24 @@ function render(){
 }
 update((tick)=>{
   render()
-  if(tick < 2){
-    //console.log(planeGeometry.attributes.position.array);
-    return;
-  }
-    
   changeGeometry(planeGeometry, (geometry, matrix, i, prev)=>{
+    if(tick < 2){
+      let geocolumn = 0
+      if(Number.isInteger(i/200)){
+        geocolumn = i/200
+      }
+      //matrix
+      if ( i == 0){
+        console.log("Start");
+        console.log(matrix);
+      }
+      else if(i == matrix.count-1){
+        console.log("End");
+        console.log(matrix);
+      }
+      
+    }
     
-    //matrix
-    //console.log(matrix, prev);
     //planeGeometry.attributes.position.
     //geometry.attributes.position.setZ(i, Math.random(0, 100));
     if(i < matrix.count/2){ //matrix.count/2
@@ -173,6 +182,12 @@ update((tick)=>{
     //const xsin = Math.sin(xangle)
     //geometry.attributes.position.setZ(i, xsin);
   })
+  if(tick > 20){
+    //return true
+  }
+  
+    
+  
 
    
     

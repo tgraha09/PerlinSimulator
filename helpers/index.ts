@@ -124,15 +124,17 @@ export function KeyboardWatch(callback){
     });
 }
 
+
 export function changeGeometry(geometry, callback){
     const count = geometry.attributes.position.count;
     let previous: any = {}
     for (let i = 0; i < count; i++) {
-      const x = geometry.attributes.position.getX(i);
-      const y = geometry.attributes.position.getY(i);
-      const z = geometry.attributes.position.getZ(i);
-      callback(geometry, {x,y,z, count}, i, previous)
-      previous.matrix = {x,y,z, count}
+        
+        const x = geometry.attributes.position.getX(i);
+        const y = geometry.attributes.position.getY(i);
+        const z = geometry.attributes.position.getZ(i);
+        callback(geometry, {x,y,z, count}, i, previous)
+        previous.matrix = {x,y,z, count}
       //previous.u +=1
     }
     //callback(geometry)
@@ -188,19 +190,18 @@ export function getFPS(){
     }
     frames.push(currentframe);
     fps = frames.length;
-    
     return fps
 }
 
 export function update(callback: any, slowOptions: any){
    
     // console.log(this.loop.fps_LastFrame);
-    
-     if(loop.currentFrame==0){
-         console.log("update");
-     }
-     //console.log("update");
-     if (typeof callback == "function" &&  und(window)){
+    //console.log("update");
+    if(loop.currentFrame==0){
+        //console.log("update");
+    }
+    let endLoop: boolean;
+    if (typeof callback == "function" &&  und(window)){
 
         loop.currentFrame = window.requestAnimationFrame(()=>{
             innerScreenWidth = window.innerWidth
@@ -210,7 +211,7 @@ export function update(callback: any, slowOptions: any){
             loop.fps_LastFrame = loop.currentFrame
             if( slowOptions == undefined || slowOptions.enabled == undefined || slowOptions.enabled == false ){
                 //console.log("normal")
-                callback(loop.currentFrame)
+                endLoop = callback(loop.currentFrame) || false
             }
             else if(slowOptions.enabled){ //&& loop.currentFrame % slowOptions.frames == 0
                 frameCount++;
@@ -218,13 +219,21 @@ export function update(callback: any, slowOptions: any){
                 if(loop.currentFrame % slowOptions.frames == 0){
                     //console.log("Slow", frameCount)
                     
-                    callback(loop.currentFrame)
+                    endLoop = callback(loop.currentFrame) || false
                     frameCount = 0
                 }
-               
+                
                 
             }
-            update(callback, slowOptions)
+            if(endLoop){
+                //console.log("END LOOP");
+                
+                window.cancelAnimationFrame(loop.currentFrame)
+            }
+            else{
+                update(callback, slowOptions)
+            }
+            
         });
          
     }

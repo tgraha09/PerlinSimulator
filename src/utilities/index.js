@@ -129,24 +129,29 @@ export function getFPS() {
 }
 export function update(callback, slowOptions) {
     if (loop.currentFrame == 0) {
-        console.log("update");
     }
+    let endLoop;
     if (typeof callback == "function" && und(window)) {
         loop.currentFrame = window.requestAnimationFrame(() => {
             innerScreenWidth = window.innerWidth;
             innerScreenHeight = window.innerHeight;
             loop.fps_LastFrame = loop.currentFrame;
             if (slowOptions == undefined || slowOptions.enabled == undefined || slowOptions.enabled == false) {
-                callback(loop.currentFrame);
+                endLoop = callback(loop.currentFrame) || false;
             }
             else if (slowOptions.enabled) {
                 frameCount++;
                 if (loop.currentFrame % slowOptions.frames == 0) {
-                    callback(loop.currentFrame);
+                    endLoop = callback(loop.currentFrame) || false;
                     frameCount = 0;
                 }
             }
-            update(callback, slowOptions);
+            if (endLoop) {
+                window.cancelAnimationFrame(loop.currentFrame);
+            }
+            else {
+                update(callback, slowOptions);
+            }
         });
     }
 }

@@ -3,7 +3,7 @@ import * as THREE from 'three'
 
 import { innerScreenWidth, innerScreenHeight, findElement, und, addKeyboardEvent, changeGeometry,
   resizeWindowToCamera, initPerspectiveCam, update, 
-  calcAspectRatio, KeyboardWatch, rotateShape, rotateX, rotateY, rotateZ, getFPS } from '../dist/index.js'
+  calcAspectRatio, KeyboardWatch, rotateShape, rotateX, rotateY, rotateZ, getFPS } from './utilities/index.js'
 import * as Shapes from './shapes'
 import { V3, V2 } from './vertex'
 import { Vector3 } from 'three'
